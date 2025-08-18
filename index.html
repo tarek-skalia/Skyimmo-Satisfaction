@@ -1,236 +1,287 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enquête de Satisfaction - SKYIMMO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%);
-            min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center;
-        }
-        .form-container {
-            width: 100%; max-width: 520px; background: #ffffff; border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(30, 144, 255, 0.15); overflow: hidden; position: relative;
-            animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideInUp { from {opacity:0;transform:translateY(30px);} to {opacity:1;transform:translateY(0);} }
-        .form-header {
-            background: linear-gradient(135deg, #1e90ff 0%, #4dabf7 50%, #74c0fc 100%);
-            padding: 40px 32px; text-align: center; position: relative; overflow: hidden;
-        }
-        .form-header::before {
-            content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: rotate 20s linear infinite;
-        }
-        @keyframes rotate { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-        .brand-logo { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; z-index: 2; }
-        .brand-icon { background: rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 12px; margin-right: 12px; backdrop-filter: blur(10px); }
-        .brand-text { color: white; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
-        .brand-tagline { color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500; background: rgba(255, 107, 53, 0.9); padding: 4px 12px; border-radius: 20px; margin-top: 8px; display: inline-block; }
-        .form-title { color: white; font-size: 28px; font-weight: 600; margin: 24px 0 12px; position: relative; z-index: 2; }
-        .form-subtitle { color: rgba(255, 255, 255, 0.9); font-size: 16px; font-weight: 400; line-height: 1.5; position: relative; z-index: 2; }
-        .form-body { padding: 40px 32px; }
-        .form-description {
-            text-align: center; color: #64748b; font-size: 15px; line-height: 1.6; margin-bottom: 32px; padding: 20px;
-            background: linear-gradient(135deg, #f1f8ff 0%, #e8f4ff 100%); border-radius: 12px; border-left: 4px solid #1e90ff;
-        }
-        .form-group { margin-bottom: 28px; animation: fadeInUp 0.6s ease-out backwards; }
-        .form-group:nth-child(1) { animation-delay: 0.1s; }
-        .form-group:nth-child(2) { animation-delay: 0.2s; }
-        .form-group:nth-child(3) { animation-delay: 0.3s; }
-        .form-group:nth-child(4) { animation-delay: 0.4s; }
-        @keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-        .form-label { display: block; color: #334155; font-size: 16px; font-weight: 600; margin-bottom: 12px; position: relative; }
-        .form-label.required::after { content: '*'; color: #ff6b35; margin-left: 4px; font-weight: 700; }
-        .select-wrapper { position: relative; }
-        .form-select, .form-textarea {
-            width: 100%; padding: 16px 20px; font-size: 15px; color: #475569; background: #ffffff;
-            border: 2px solid #e2e8f0; border-radius: 12px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e"); background-position: right 16px center; background-repeat: no-repeat; background-size: 16px; cursor: pointer; }
-        .form-select:focus, .form-textarea:focus { border-color: #1e90ff; box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.1); transform: translateY(-1px); }
-        .form-select:hover { border-color: #cbd5e1; }
-        .form-textarea { resize: vertical; min-height: 120px; font-family: 'Inter', sans-serif; line-height: 1.5; }
-        .form-textarea::placeholder { color: #94a3b8; }
-        .rating-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-        .rating-option { flex: 1; min-width: 60px; }
-        .rating-input { display: none; }
-        .rating-label {
-            display: block; padding: 12px 8px; text-align: center; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; font-weight: 500; color: #64748b; cursor: pointer; transition: all 0.3s ease;
-        }
-        .rating-input:checked + .rating-label {
-            background: linear-gradient(135deg, #1e90ff, #4dabf7); border-color: #1e90ff; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
-        }
-        .rating-label:hover { border-color: #1e90ff; background: #f0f8ff; }
-        .submit-container { text-align: center; margin-top: 40px; }
-        .submit-button {
-            background: linear-gradient(135deg, #1e90ff 0%, #0066cc 100%); color: white; font-size: 16px; font-weight: 600; padding: 18px 48px; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px rgba(30, 144, 255, 0.3); text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden;
-        }
-        .submit-button::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s;
-        }
-        .submit-button:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(30, 144, 255, 0.4); background: linear-gradient(135deg, #0066cc 0%, #004499 100%); }
-        .submit-button:hover::before { left: 100%; }
-        .submit-button:active { transform: translateY(0); }
-        .footer-info { text-align: center; color: #94a3b8; font-size: 13px; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
-        .security-badge { display: inline-flex; align-items: center; background: #f0fdf4; color: #166534; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; margin-top: 12px; }
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .form-container { border-radius: 16px; }
-            .form-header { padding: 32px 24px; }
-            .form-body { padding: 32px 24px; }
-            .form-title { font-size: 24px; }
-            .rating-group { flex-direction: column; }
-            .rating-option { min-width: 100%; }
-        }
-        .note { margin-top: 12px; font-size: 13px; color: #64748b; text-align: center; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enquête de Satisfaction - SKYIMMO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%);
+      min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center;
+    }
+
+    .form-container {
+      width: 100%; max-width: 520px; background: #ffffff; border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(30, 144, 255, 0.15); overflow: hidden; position: relative;
+      animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideInUp { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
+
+    .form-header {
+      background: linear-gradient(135deg, #1e90ff 0%, #4dabf7 50%, #74c0fc 100%);
+      padding: 40px 32px; text-align: center; position: relative; overflow: hidden;
+    }
+    .form-header::before {
+      content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: rotate 20s linear infinite;
+    }
+    @keyframes rotate { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+
+    .brand-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; position: relative; z-index: 2; }
+    .brand-icon { background: transparent; padding: 0; border-radius: 12px; }
+    .brand-logo-img { height: 28px; width: auto; display: block; }
+
+    .brand-text { color: white; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+    .brand-tagline { color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500; background: rgba(255, 107, 53, 0.9); padding: 4px 12px; border-radius: 20px; margin-top: 8px; display: inline-block; }
+
+    .form-title { color: white; font-size: 28px; font-weight: 600; margin: 24px 0 12px; position: relative; z-index: 2; }
+    .form-subtitle { color: rgba(255, 255, 255, 0.9); font-size: 16px; font-weight: 400; line-height: 1.5; position: relative; z-index: 2; }
+
+    .form-body { padding: 40px 32px; }
+
+    .form-description {
+      text-align: center; color: #64748b; font-size: 15px; line-height: 1.6; margin-bottom: 32px; padding: 20px;
+      background: linear-gradient(135deg, #f1f8ff 0%, #e8f4ff 100%); border-radius: 12px; border-left: 4px solid #1e90ff;
+    }
+
+    .form-group { margin-bottom: 28px; animation: fadeInUp 0.6s ease-out backwards; }
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+
+    .form-label { display: block; color: #334155; font-size: 16px; font-weight: 600; margin-bottom: 12px; position: relative; }
+    .form-label.required::after { content: '*'; color: #ff6b35; margin-left: 4px; font-weight: 700; }
+
+    .form-select, .form-textarea {
+      width: 100%; padding: 16px 20px; font-size: 15px; color: #475569; background: #ffffff;
+      border: 2px solid #e2e8f0; border-radius: 12px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e"); background-position: right 16px center; background-repeat: no-repeat; background-size: 16px; cursor: pointer; }
+    .form-select:focus, .form-textarea:focus { border-color: #1e90ff; box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.1); transform: translateY(-1px); }
+    .form-select:hover { border-color: #cbd5e1; }
+
+    .form-textarea { resize: vertical; min-height: 120px; font-family: 'Inter', sans-serif; line-height: 1.5; }
+    .form-textarea::placeholder { color: #94a3b8; }
+
+    /* ---- BOUTONS UNIFORMES (grille) ---- */
+    .rating-group {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .rating-option { width: 100%; }
+
+    .rating-input { display: none; }
+
+    .rating-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;   /* emoji au-dessus du texte si <br> */
+      min-height: 64px;         /* ajuste pour plus/moins de hauteur */
+      padding: 12px 8px;
+      text-align: center;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .rating-input:checked + .rating-label {
+      background: linear-gradient(135deg, #1e90ff, #4dabf7);
+      border-color: #1e90ff;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+    }
+    .rating-label:hover { border-color: #1e90ff; background: #f0f8ff; }
+
+    .submit-container { text-align: center; margin-top: 40px; }
+    .submit-button {
+      background: linear-gradient(135deg, #1e90ff 0%, #0066cc 100%); color: white; font-size: 16px; font-weight: 600; padding: 18px 48px; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 25px rgba(30, 144, 255, 0.3); text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden;
+    }
+    .submit-button::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s;
+    }
+    .submit-button:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(30, 144, 255, 0.4); background: linear-gradient(135deg, #0066cc 0%, #004499 100%); }
+    .submit-button:hover::before { left: 100%; }
+    .submit-button:active { transform: translateY(0); }
+
+    .footer-info { text-align: center; color: #94a3b8; font-size: 13px; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+    .security-badge { display: inline-flex; align-items: center; background: #f0fdf4; color: #166534; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; margin-top: 12px; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .form-container { border-radius: 16px; }
+      .form-header { padding: 32px 24px; }
+      .form-body { padding: 32px 24px; }
+      .form-title { font-size: 24px; }
+      .rating-group { grid-template-columns: 1fr; } /* 1 colonne sur mobile */
+      .rating-option { min-width: 100%; }
+    }
+
+    .note { margin-top: 12px; font-size: 13px; color: #64748b; text-align: center; }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <div class="form-header">
-            <div class="brand-logo">
-                <div class="brand-icon">🏠</div>
-                <div>
-                    <div class="brand-text">SKYIMMO</div>
-                    <div class="brand-tagline">by ISMAÏL BOUTGAYOUT</div>
-                </div>
-            </div>
-            <h1 class="form-title">Votre avis compte !</h1>
-            <p class="form-subtitle">Enquête de satisfaction sur votre visite</p>
+  <div class="form-container">
+    <div class="form-header">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <img
+            src="https://cdn.prod.website-files.com/68101e1142e157b7bc0d9366/68a34aa3f7ac71145288563d_logo%20sky%20immo.png"
+            alt="SKYIMMO"
+            class="brand-logo-img"
+          />
         </div>
-
-        <div class="form-body">
-            <div class="form-description">
-                <strong>Votre réponse nous prendra 5 minutes</strong> et nous permettra d'améliorer vos futures expériences avec Sky Immo.
-            </div>
-
-            <form id="surveyForm">
-                <!-- HONEYPOT anti-bot (champ caché) -->
-                <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
-
-                <div class="form-group">
-                    <label class="form-label required">Nom de l'agent rencontré</label>
-                    <select class="form-select" name="agent" required>
-                        <option value="">Sélectionnez un agent...</option>
-                        <option value="Ismaïl Boutgayout">Ismaïl Boutgayout</option>
-                        <option value="Sarah Martin">Sarah Martin</option>
-                        <option value="Thomas Dubois">Thomas Dubois</option>
-                        <option value="Marie Leroy">Marie Leroy</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label required">Évaluez le professionnalisme de l'agent (ponctualité, présentation, courtoisie)</label>
-                    <div class="rating-group">
-                        <div class="rating-option">
-                            <input type="radio" id="prof1" name="professionnalisme" value="1" class="rating-input" required>
-                            <label for="prof1" class="rating-label">Très faible</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="prof2" name="professionnalisme" value="2" class="rating-input">
-                            <label for="prof2" class="rating-label">Faible</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="prof3" name="professionnalisme" value="3" class="rating-input">
-                            <label for="prof3" class="rating-label">Moyen</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="prof4" name="professionnalisme" value="4" class="rating-input">
-                            <label for="prof4" class="rating-label">Bon</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="prof5" name="professionnalisme" value="5" class="rating-input">
-                            <label for="prof5" class="rating-label">Excellent</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label required">Dans l'ensemble, à quel point êtes-vous satisfait de la visite ?</label>
-                    <div class="rating-group">
-                        <div class="rating-option">
-                            <input type="radio" id="sat1" name="satisfaction" value="1" class="rating-input" required>
-                            <label for="sat1" class="rating-label">😞<br>Très insatisfait</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="sat2" name="satisfaction" value="2" class="rating-input">
-                            <label for="sat2" class="rating-label">🙁<br>Insatisfait</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="sat3" name="satisfaction" value="3" class="rating-input">
-                            <label for="sat3" class="rating-label">😐<br>Neutre</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="sat4" name="satisfaction" value="4" class="rating-input">
-                            <label for="sat4" class="rating-label">😊<br>Satisfait</label>
-                        </div>
-                        <div class="rating-option">
-                            <input type="radio" id="sat5" name="satisfaction" value="5" class="rating-input">
-                            <label for="sat5" class="rating-label">😍<br>Très satisfait</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Commentaires ou suggestions pour améliorer votre expérience</label>
-                    <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions, suggestions ou remarques... (optionnel)"></textarea>
-                </div>
-
-                <div class="submit-container">
-                    <button type="submit" class="submit-button" id="submitBtn">Envoyer mon avis</button>
-                    <div class="security-badge">🔒 Vos données sont sécurisées</div>
-                    <p id="status" class="note"></p>
-                </div>
-            </form>
-
-            <div class="footer-info">
-                Merci de prendre le temps de nous faire part de votre expérience.<br>
-                Votre avis nous aide à améliorer continuellement nos services.
-            </div>
+        <div>
+          <div class="brand-text">SKYIMMO</div>
+          <div class="brand-tagline">by ISMAÏL BOUTGAYOUT</div>
         </div>
+      </div>
+      <h1 class="form-title">Votre avis compte !</h1>
+      <p class="form-subtitle">Enquête de satisfaction sur votre visite</p>
     </div>
 
-    <script>
-      const WEBHOOK_URL = "/api/submit"; // envoyé au proxy Vercel, qui renverra à n8n
-      const form = document.getElementById('surveyForm');
-      const status = document.getElementById('status');
-      const btn = document.getElementById('submitBtn');
+    <div class="form-body">
+      <div class="form-description">
+        <strong>Votre réponse nous prendra 5 minutes</strong> et nous permettra d'améliorer vos futures expériences avec Sky Immo.
+      </div>
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        status.textContent = "";
-        btn.disabled = true;
+      <form id="surveyForm">
+        <!-- HONEYPOT anti-bot (champ caché) -->
+        <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
 
-        const fd = new FormData(form);
-        // Anti-bot simple: si le champ caché est rempli, on ignore
-        if (fd.get('website')) { btn.disabled = false; return; }
+        <div class="form-group">
+          <label class="form-label required">Nom de l'agent rencontré</label>
+          <select class="form-select" name="agent" required>
+            <option value="">Sélectionnez un agent...</option>
+            <option value="Ismaïl Boutgayout">Ismaïl Boutgayout</option>
+            <option value="Sarah Martin">Sarah Martin</option>
+            <option value="Thomas Dubois">Thomas Dubois</option>
+            <option value="Marie Leroy">Marie Leroy</option>
+          </select>
+        </div>
 
-        const payload = Object.fromEntries(fd.entries());
-        payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
+        <div class="form-group">
+          <label class="form-label required">Évaluez le professionnalisme de l'agent (ponctualité, présentation, courtoisie)</label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" id="prof1" name="professionnalisme" value="1" class="rating-input" required>
+              <label for="prof1" class="rating-label">Très faible</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="prof2" name="professionnalisme" value="2" class="rating-input">
+              <label for="prof2" class="rating-label">Faible</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="prof3" name="professionnalisme" value="3" class="rating-input">
+              <label for="prof3" class="rating-label">Moyen</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="prof4" name="professionnalisme" value="4" class="rating-input">
+              <label for="prof4" class="rating-label">Bon</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="prof5" name="professionnalisme" value="5" class="rating-input">
+              <label for="prof5" class="rating-label">Excellent</label>
+            </div>
+          </div>
+        </div>
 
-        try {
-          status.textContent = "Envoi en cours…";
-          const res = await fetch(WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) throw new Error("Erreur d'envoi");
-          status.textContent = "Merci ! Votre réponse a bien été envoyée.";
-          form.reset();
-        } catch (err) {
-          status.textContent = "Oups, une erreur est survenue. Réessayez.";
-          console.error(err);
-        } finally {
-          btn.disabled = false;
-        }
-      });
-    </script>
+        <div class="form-group">
+          <label class="form-label required">Dans l'ensemble, à quel point êtes-vous satisfait de la visite ?</label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" id="sat1" name="satisfaction" value="1" class="rating-input" required>
+              <label for="sat1" class="rating-label">😞<br>Très insatisfait</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="sat2" name="satisfaction" value="2" class="rating-input">
+              <label for="sat2" class="rating-label">🙁<br>Insatisfait</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="sat3" name="satisfaction" value="3" class="rating-input">
+              <label for="sat3" class="rating-label">😐<br>Neutre</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="sat4" name="satisfaction" value="4" class="rating-input">
+              <label for="sat4" class="rating-label">😊<br>Satisfait</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="sat5" name="satisfaction" value="5" class="rating-input">
+              <label for="sat5" class="rating-label">😍<br>Très satisfait</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Commentaires ou suggestions pour améliorer votre expérience</label>
+          <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions, suggestions ou remarques... (optionnel)"></textarea>
+        </div>
+
+        <div class="submit-container">
+          <button type="submit" class="submit-button" id="submitBtn">Envoyer mon avis</button>
+          <div class="security-badge">🔒 Vos données sont sécurisées</div>
+          <p id="status" class="note"></p>
+        </div>
+      </form>
+
+      <div class="footer-info">
+        Merci de prendre le temps de nous faire part de votre expérience.<br>
+        Votre avis nous aide à améliorer continuellement nos services.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = "/api/submit"; // proxy Vercel -> n8n
+    const form = document.getElementById('surveyForm');
+    const status = document.getElementById('status');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = "";
+      btn.disabled = true;
+
+      const fd = new FormData(form);
+      if (fd.get('website')) { btn.disabled = false; return; } // anti-bot
+
+      const payload = Object.fromEntries(fd.entries());
+      payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
+
+      try {
+        status.textContent = "Envoi en cours…";
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error("Erreur d'envoi");
+        status.textContent = "Merci ! Votre réponse a bien été envoyée.";
+        form.reset();
+      } catch (err) {
+        status.textContent = "Oups, une erreur est survenue. Réessayez.";
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
