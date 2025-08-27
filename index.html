@@ -1,385 +1,398 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Enquête de Satisfaction - SKYIMMO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #1055d5; --primary-light: #4A90E2; --primary-dark: #0a3d9e;
-            --electric-blue: #00d4ff; --electric-purple: #8b5cf6; --electric-pink: #ec4899;
-            --neon-green: #00ff88; --danger: #ff5577;
-        }
-        .hidden { display: none !important; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enquête de Satisfaction - SKYIMMO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --primary:#1055d5; --primary-light:#4A90E2; --primary-dark:#0a3d9e; --electric-blue:#00d4ff; --electric-purple:#8b5cf6; --electric-pink:#ec4899; --neon-green:#00ff88; --danger:#ff5577; }
+    .hidden { display: none !important; }
 
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center; overflow-x: hidden; position: relative; }
-        body::before { content: ''; position: fixed; inset: 0; background:
-            radial-gradient(circle at 20% 80%, var(--primary) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, var(--electric-blue) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, var(--electric-purple) 0%, transparent 50%); opacity: .3;
-            animation: backgroundPulse 4s ease-in-out infinite alternate; z-index: -1; }
-        @keyframes backgroundPulse { 0%{opacity:.2; transform:scale(1)} 100%{opacity:.4; transform:scale(1.1)} }
+    body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0a; min-height:100vh; padding:20px; display:flex; align-items:center; justify-content:center; overflow-x:hidden; position:relative; }
+    body::before { content:''; position:fixed; inset:0; background:
+      radial-gradient(circle at 20% 80%, var(--primary) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--electric-blue) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, var(--electric-purple) 0%, transparent 50%); opacity:.3;
+      animation: bgPulse 4s ease-in-out infinite alternate; z-index:-1; }
+    @keyframes bgPulse { 0%{opacity:.2;transform:scale(1)}100%{opacity:.4;transform:scale(1.1)} }
 
-        .particles { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-        .particle { position: absolute; width: 4px; height: 4px; background: var(--electric-blue); border-radius: 50%; animation: float 6s ease-in-out infinite; box-shadow: 0 0 10px var(--electric-blue); }
-        @keyframes float { 0%,100%{transform:translateY(0) rotate(0); opacity:1} 50%{transform:translateY(-100px) rotate(180deg); opacity:.5} }
+    .particles { position:fixed; inset:0; pointer-events:none; z-index:-1; }
+    .particle { position:absolute; width:4px; height:4px; background:var(--electric-blue); border-radius:50%; animation:float 6s ease-in-out infinite; box-shadow:0 0 10px var(--electric-blue); }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0);opacity:1} 50%{transform:translateY(-100px) rotate(180deg);opacity:.5} }
 
-        .form-container { width: 100%; max-width: 580px; background: rgba(15,23,42,.95); border-radius: 25px; backdrop-filter: blur(20px);
-            border: 2px solid rgba(16,85,213,.3); box-shadow: 0 25px 80px rgba(16,85,213,.4), inset 0 1px 0 rgba(255,255,255,.1);
-            overflow: hidden; position: relative; animation: containerGlow 3s ease-in-out infinite alternate; }
-        @keyframes containerGlow { 0%{box-shadow:0 25px 80px rgba(16,85,213,.3), inset 0 1px 0 rgba(255,255,255,.1)} 100%{box-shadow:0 25px 80px rgba(16,85,213,.6), inset 0 1px 0 rgba(255,255,255,.2)} }
-        .form-container::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:2px;
-            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent); animation: scan 3s linear infinite; z-index:10; }
-        @keyframes scan { 0%{left:-100%} 100%{left:100%} }
+    .form-container { width:100%; max-width:580px; background:rgba(15,23,42,.95); border-radius:25px; backdrop-filter:blur(20px); border:2px solid rgba(16,85,213,.3); box-shadow:0 25px 80px rgba(16,85,213,.4), inset 0 1px 0 rgba(255,255,255,.1); overflow:hidden; position:relative; animation:glow 3s ease-in-out infinite alternate; }
+    @keyframes glow { 0%{box-shadow:0 25px 80px rgba(16,85,213,.3), inset 0 1px 0 rgba(255,255,255,.1)} 100%{box-shadow:0 25px 80px rgba(16,85,213,.6), inset 0 1px 0 rgba(255,255,255,.2)} }
+    .form-container::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:2px; background:linear-gradient(90deg, transparent, var(--electric-blue), transparent); animation:scan 3s linear infinite; z-index:10; }
+    @keyframes scan { 0%{left:-100%} 100%{left:100%} }
 
-        .form-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, #000 100%); padding:45px 35px; text-align:center; position:relative; overflow:hidden; }
-        .form-header::after { content:''; position:absolute; inset:0; left:-100%; background: linear-gradient(90deg, transparent, rgba(0,212,255,.2), rgba(139,92,246,.2), transparent); animation: hologram 4s linear infinite; }
-        @keyframes hologram { 0%{left:-100%} 100%{left:100%} }
+    .form-header { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, #000 100%); padding:45px 35px; text-align:center; position:relative; overflow:hidden; }
+    .form-header::after { content:''; position:absolute; inset:0; left:-100%; background:linear-gradient(90deg, transparent, rgba(0,212,255,.2), rgba(139,92,246,.2), transparent); animation:holo 4s linear infinite; }
+    @keyframes holo { 0%{left:-100%} 100%{left:100%} }
 
-        .brand-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:25px;position:relative;z-index:2}
-        .brand-content{text-align:center}
-        .brand-text{color:#fff;font-family:'Orbitron',monospace;font-size:28px;font-weight:900;letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 20px var(--electric-blue);animation:textGlow 2s ease-in-out infinite alternate}
-        @keyframes textGlow{0%{text-shadow:0 0 20px var(--electric-blue)}100%{text-shadow:0 0 30px var(--electric-blue),0 0 40px var(--electric-purple)}}
-        .brand-tagline{color:#FF6C11;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-top:8px;text-shadow:0 0 15px rgba(255,108,17,.6);animation:orangeGlow 2s ease-in-out infinite alternate;background:linear-gradient(45deg,#FF6C11,#FF8533);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        @keyframes orangeGlow{0%{text-shadow:0 0 15px rgba(255,108,17,.6);filter:brightness(1)}100%{text-shadow:0 0 25px rgba(255,108,17,.9),0 0 35px rgba(255,133,51,.6);filter:brightness(1.2)}}
+    .brand-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:25px;position:relative;z-index:2}
+    .brand-content{text-align:center}
+    .brand-text{color:#fff;font-family:'Orbitron',monospace;font-size:28px;font-weight:900;letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 20px var(--electric-blue);animation:textGlow 2s ease-in-out infinite alternate}
+    @keyframes textGlow{0%{text-shadow:0 0 20px var(--electric-blue)}100%{text-shadow:0 0 30px var(--electric-blue),0 0 40px var(--electric-purple)}}
+    .brand-tagline{color:#FF6C11;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-top:8px;text-shadow:0 0 15px rgba(255,108,17,.6);animation:orangeGlow 2s ease-in-out infinite alternate;background:linear-gradient(45deg,#FF6C11,#FF8533);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    @keyframes orangeGlow{0%{text-shadow:0 0 15px rgba(255,108,17,.6);filter:brightness(1)}100%{text-shadow:0 0 25px rgba(255,108,17,.9),0 0 35px rgba(255,133,51,.6);filter:brightness(1.2)}}
+    .form-title{color:#fff;font-size:32px;font-weight:700;margin:25px 0 15px;position:relative;z-index:2;text-shadow:0 0 15px rgba(255,255,255,.5);animation:titleFloat 3s ease-in-out infinite}
+    @keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .form-subtitle{color:rgba(255,255,255,.8);font-size:16px;font-weight:400;position:relative;z-index:2}
+    .form-body{padding:45px 35px;background:rgba(0,0,0,.3);position:relative}
 
-        .form-title{color:#fff;font-size:32px;font-weight:700;margin:25px 0 15px;position:relative;z-index:2;text-shadow:0 0 15px rgba(255,255,255,.5);animation:titleFloat 3s ease-in-out infinite}
-        @keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-        .form-subtitle{color:rgba(255,255,255,.8);font-size:16px;font-weight:400;position:relative;z-index:2}
+    .form-description{text-align:center;color:#fff;font-size:15px;line-height:1.6;margin-bottom:35px;padding:25px;background:rgba(16,85,213,.1);border-radius:15px;border:1px solid rgba(16,85,213,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);animation:descGlow 4s ease-in-out infinite alternate}
+    @keyframes descGlow{0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 20px rgba(16,85,213,.2)}100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 30px rgba(16,85,213,.4)}}
 
-        .form-body{padding:45px 35px;background:rgba(0,0,0,.3);position:relative}
-        .form-description{text-align:center;color:#fff;font-size:15px;line-height:1.6;margin-bottom:35px;padding:25px;background:rgba(16,85,213,.1);border-radius:15px;border:1px solid rgba(16,85,213,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);animation:descriptionGlow 4s ease-in-out infinite alternate}
-        @keyframes descriptionGlow{0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 20px rgba(16,85,213,.2)}100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 30px rgba(16,85,213,.4)}}
+    .form-group{margin-bottom:30px;animation:slideIn .8s ease-out backwards}
+    .form-group:nth-child(1){animation-delay:.1s}.form-group:nth-child(2){animation-delay:.2s}.form-group:nth-child(3){animation-delay:.3s}.form-group:nth-child(4){animation-delay:.4s}
+    @keyframes slideIn{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
+    .form-label{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:15px;position:relative;text-shadow:0 0 10px rgba(255,255,255,.3)}
+    .form-label.required::after{content:'*';color:var(--electric-pink);margin-left:6px;font-weight:700;text-shadow:0 0 10px var(--electric-pink);animation:star 1.5s ease-in-out infinite}
+    @keyframes star{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.2)}}
 
-        .form-group{margin-bottom:30px;animation:slideInFromLeft .8s ease-out backwards}
-        .form-group:nth-child(1){animation-delay:.1s}.form-group:nth-child(2){animation-delay:.2s}.form-group:nth-child(3){animation-delay:.3s}.form-group:nth-child(4){animation-delay:.4s}
-        @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
+    .form-select,.form-textarea{width:100%;padding:18px 22px;font-size:15px;color:#fff;background:rgba(15,23,42,.8);border:2px solid rgba(16,85,213,.3);border-radius:15px;outline:none;transition:all .4s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(10px)}
+    .form-select{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");background-position:right 18px center;background-repeat:no-repeat;background-size:16px;cursor:pointer}
+    .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 4px rgba(0,212,255,.2),0 0 30px rgba(0,212,255,.4);transform:translateY(-2px) scale(1.01)}
+    .form-select:hover,.form-textarea:hover{border-color:var(--primary-light);box-shadow:0 0 20px rgba(16,85,213,.3)}
+    .form-textarea{resize:vertical;min-height:130px;font-family:'Inter',sans-serif;line-height:1.6}
+    .form-textarea::placeholder{color:rgba(255,255,255,.6)}
 
-        .form-label{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:15px;position:relative;text-shadow:0 0 10px rgba(255,255,255,.3)}
-        .form-label.required::after{content:'*';color:var(--electric-pink);margin-left:6px;font-weight:700;text-shadow:0 0 10px var(--electric-pink);animation:starPulse 1.5s ease-in-out infinite}
-        @keyframes starPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.2)}}
+    .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:12px}
+    .rating-option{flex:1;min-width:90px}
+    .rating-input{display:none}
+    .rating-label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);border-radius:12px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);min-height:85px;line-height:1.3;position:relative;overflow:hidden}
+    .rating-label::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,.1),transparent);transition:left .5s}
+    .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue));border-color:var(--electric-blue);color:#fff;transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6)}50%{box-shadow:0 15px 35px rgba(16,85,213,.6),0 0 40px rgba(0,212,255,.8)}}
+    .rating-label:hover{border-color:var(--electric-blue);background:rgba(16,85,213,.2);transform:translateY(-2px);box-shadow:0 5px 15px rgba(16,85,213,.3)}
+    .rating-label:hover::before{left:100%}
 
-        .form-select,.form-textarea{width:100%;padding:18px 22px;font-size:15px;color:#fff;background:rgba(15,23,42,.8);border:2px solid rgba(16,85,213,.3);border-radius:15px;outline:none;transition:all .4s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(10px)}
-        .form-select{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");background-position:right 18px center;background-repeat:no-repeat;background-size:16px;cursor:pointer}
-        .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 4px rgba(0,212,255,.2),0 0 30px rgba(0,212,255,.4);transform:translateY(-2px) scale(1.01)}
-        .form-select:hover,.form-textarea:hover{border-color:var(--primary-light);box-shadow:0 0 20px rgba(16,85,213,.3)}
-        .form-textarea{resize:vertical;min-height:130px;font-family:'Inter',sans-serif;line-height:1.6}
-        .form-textarea::placeholder{color:rgba(255,255,255,.6)}
+    /* Surlignage si invalide (groupe) */
+    .form-group.invalid .form-label { color: var(--danger); text-shadow:none; }
+    .form-group.invalid .rating-label,
+    .form-group.invalid .form-select { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(255,85,119,.15); }
 
-        /* Surlignage léger des champs invalides */
-        .form-select:invalid,
-        .form-textarea:invalid { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(255,85,119,.15); }
+    .submit-container{text-align:center;margin-top:45px}
+    .submit-button{background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);color:#fff;font-size:18px;font-weight:700;padding:20px 55px;border:none;border-radius:50px;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(16,85,213,.4),inset 0 1px 0 rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:1px;position:relative;overflow:hidden;font-family:'Orbitron',monospace}
+    .submit-button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .6s}
+    .submit-button::after{content:'';position:absolute;inset:2px;border-radius:50px;background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);z-index:-1}
+    .submit-button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 15px 40px rgba(16,85,213,.6),0 0 50px rgba(0,212,255,.4);background:linear-gradient(135deg,var(--electric-blue) 0%,var(--electric-purple) 100%)}
+    .submit-button:hover::before{left:100%}
+    .submit-button:active{transform:translateY(-1px) scale(1.02)}
 
-        .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:12px}
-        .rating-option{flex:1;min-width:90px}
-        .rating-input{display:none}
-        .rating-label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);border-radius:12px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);min-height:85px;line-height:1.3;position:relative;overflow:hidden}
-        .rating-label::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,.1),transparent);transition:left .5s}
-        .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue));border-color:var(--electric-blue);color:#fff;transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6);animation:selectedPulse 2s ease-in-out infinite}
-        @keyframes selectedPulse{0%,100%{box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6)}50%{box-shadow:0 15px 35px rgba(16,85,213,.6),0 0 40px rgba(0,212,255,.8)}}
-        .rating-label:hover{border-color:var(--electric-blue);background:rgba(16,85,213,.2);transform:translateY(-2px);box-shadow:0 5px 15px rgba(16,85,213,.3)}
-        .rating-label:hover::before{left:100%}
+    .security-badge{display:inline-flex;align-items:center;background:rgba(0,255,136,.1);color:var(--neon-green);font-size:13px;font-weight:600;padding:8px 16px;border-radius:25px;margin-top:15px;border:1px solid rgba(0,255,136,.3);animation:securityPulse 3s ease-in-out infinite}
+    @keyframes securityPulse{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.3)}50%{box-shadow:0 0 20px rgba(0,255,136,.6)}}
+    .footer-info{text-align:center;color:#fff;font-size:14px;margin-top:35px;padding-top:25px;border-top:1px solid rgba(16,85,213,.3);opacity:.9}
+    .note{margin-top:15px;font-size:14px;color:#fff;text-align:center;font-weight:500}
 
-        .submit-container{text-align:center;margin-top:45px}
-        .submit-button{background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);color:#fff;font-size:18px;font-weight:700;padding:20px 55px;border:none;border-radius:50px;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(16,85,213,.4),inset 0 1px 0 rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:1px;position:relative;overflow:hidden;font-family:'Orbitron',monospace}
-        .submit-button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .6s}
-        .submit-button::after{content:'';position:absolute;inset:2px;border-radius:50px;background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);z-index:-1}
-        .submit-button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 15px 40px rgba(16,85,213,.6),0 0 50px rgba(0,212,255,.4);background:linear-gradient(135deg,var(--electric-blue) 0%,var(--electric-purple) 100%)}
-        .submit-button:hover::before{left:100%}
-        .submit-button:active{transform:translateY(-1px) scale(1.02)}
+    /* TOAST */
+    .toast{position:fixed;top:20px;right:-420px;max-width:320px;background:linear-gradient(135deg,#00ff88,#00d4ff);color:#fff;font-weight:700;padding:14px 18px;border-radius:12px;box-shadow:0 10px 25px rgba(0,212,255,.35);transition:right .6s ease;z-index:9999;border:1px solid rgba(255,255,255,.25)}
+    .toast.show{right:20px}
+    .toast.error{background:linear-gradient(135deg,var(--danger),#ff8aa1);box-shadow:0 10px 25px rgba(255,85,119,.35)}
 
-        .security-badge{display:inline-flex;align-items:center;background:rgba(0,255,136,.1);color:var(--neon-green);font-size:13px;font-weight:600;padding:8px 16px;border-radius:25px;margin-top:15px;border:1px solid rgba(0,255,136,.3);animation:securityPulse 3s ease-in-out infinite}
-        @keyframes securityPulse{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.3)}50%{box-shadow:0 0 20px rgba(0,255,136,.6)}}
-        .footer-info{text-align:center;color:#fff;font-size:14px;margin-top:35px;padding-top:25px;border-top:1px solid rgba(16,85,213,.3);opacity:.9}
-        .note{margin-top:15px;font-size:14px;color:#fff;text-align:center;font-weight:500}
+    /* PANNEAU SUCCÈS */
+    .success-panel{text-align:center;padding:28px 22px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:16px;color:#eafff5;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);animation:fadeIn .6s ease-out both}
+    .success-icon{font-size:38px;margin-bottom:10px;filter:drop-shadow(0 0 10px rgba(0,255,136,.5))}
+    .success-title{font-weight:800;font-size:20px;letter-spacing:.4px;margin-bottom:6px}
+    .success-desc{color:#b7ffe2}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-        /* TOAST */
-        .toast{position:fixed;top:20px;right:-420px;max-width:320px;background:linear-gradient(135deg,#00ff88,#00d4ff);color:#fff;font-weight:700;padding:14px 18px;border-radius:12px;box-shadow:0 10px 25px rgba(0,212,255,.35);transition:right .6s ease;z-index:9999;border:1px solid rgba(255,255,255,.25)}
-        .toast.show{right:20px}
-        .toast.error{background:linear-gradient(135deg,var(--danger),#ff8aa1);box-shadow:0 10px 25px rgba(255,85,119,.35)}
-
-        /* PANNEAU SUCCÈS */
-        .success-panel{text-align:center;padding:28px 22px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:16px;color:#eafff5;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);animation:fadeIn .6s ease-out both}
-        .success-icon{font-size:38px;margin-bottom:10px;filter:drop-shadow(0 0 10px rgba(0,255,136,.5))}
-        .success-title{font-weight:800;font-size:20px;letter-spacing:.4px;margin-bottom:6px}
-        .success-desc{color:#b7ffe2}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-        /* Responsive */
-        @media (max-width:600px){
-            body{padding:15px}
-            .form-container{border-radius:20px}
-            .form-header{padding:35px 25px}
-            .form-body{padding:35px 25px}
-            .form-title{font-size:26px}
-            .brand-text{font-size:24px}
-            .rating-group{flex-direction:column;gap:8px}
-            .rating-option{min-width:100%}
-            .submit-button{padding:18px 45px;font-size:16px}
-        }
-    </style>
+    @media (max-width:600px){
+      body{padding:15px}
+      .form-container{border-radius:20px}
+      .form-header{padding:35px 25px}
+      .form-body{padding:35px 25px}
+      .form-title{font-size:26px}
+      .brand-text{font-size:24px}
+      .rating-group{flex-direction:column;gap:8px}
+      .rating-option{min-width:100%}
+      .submit-button{padding:18px 45px;font-size:16px}
+    }
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="form-container">
-        <div class="form-header">
-            <div class="brand-logo">
-                <div class="brand-content">
-                    <div class="brand-text">SKYIMMO</div>
-                    <div class="brand-tagline">by ISMAÏL BOUTGAYOUT</div>
-                </div>
-            </div>
-            <h1 class="form-title">Votre avis compte !</h1>
-            <p class="form-subtitle">Enquête de satisfaction sur votre visite</p>
+  <div class="particles" id="particles"></div>
+
+  <div class="form-container">
+    <div class="form-header">
+      <div class="brand-logo">
+        <div class="brand-content">
+          <div class="brand-text">SKYIMMO</div>
+          <div class="brand-tagline">by ISMAÏL BOUTGAYOUT</div>
         </div>
-
-        <div class="form-body">
-            <!-- panneau succès -->
-            <div id="successPanel" class="success-panel hidden" aria-live="polite">
-                <div class="success-icon">✅</div>
-                <div class="success-title">Merci, votre avis a été enregistré.</div>
-                <div class="success-desc">Nous apprécions votre retour — il nous aide à améliorer nos services.</div>
-            </div>
-
-            <div id="formWrapper">
-                <div class="form-description">
-                    <strong>Votre réponse nous prendra 5 minutes</strong> et nous permettra d'améliorer vos futures expériences avec Sky Immo.
-                </div>
-
-                <form id="surveyForm">
-                    <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
-
-                    <div class="form-group">
-                        <label class="form-label required">Nom de l'agent rencontré</label>
-                        <select class="form-select" name="agent" required>
-                            <option value="">Sélectionnez un agent...</option>
-                            <option value="Ismaïl Boutgayout">Ismaïl Boutgayout</option>
-                            <option value="Sarah Martin">Sarah Martin</option>
-                            <option value="Thomas Dubois">Thomas Dubois</option>
-                            <option value="Marie Leroy">Marie Leroy</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label required">Est-ce que votre agent était à l'heure ?</label>
-                        <div class="rating-group">
-                            <div class="rating-option">
-                                <input type="radio" id="ponc1" name="ponctualite" value="1" class="rating-input" required>
-                                <label for="ponc1" class="rating-label">Non, il était vraiment très en retard ⏰😅</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="ponc2" name="ponctualite" value="2" class="rating-input">
-                                <label for="ponc2" class="rating-label">Il était un peu en retard</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="ponc3" name="ponctualite" value="3" class="rating-input">
-                                <label for="ponc3" class="rating-label">Oui, pile à l'heure 👌</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="ponc4" name="ponctualite" value="4" class="rating-input">
-                                <label for="ponc4" class="rating-label">Oui, même en avance 🚀</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label required">Est-ce que votre agent connaissait bien le dossier du bien ?</label>
-                        <div class="rating-group">
-                            <div class="rating-option">
-                                <input type="radio" id="conn1" name="connaissance" value="1" class="rating-input" required>
-                                <label for="conn1" class="rating-label">Pas du tout, il semblait perdu</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="conn2" name="connaissance" value="2" class="rating-input">
-                                <label for="conn2" class="rating-label">Plus ou moins, certaines infos manquaient</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="conn3" name="connaissance" value="3" class="rating-input">
-                                <label for="conn3" class="rating-label">Oui, il connaissait l'essentiel</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="conn4" name="connaissance" value="4" class="rating-input">
-                                <label for="conn4" class="rating-label">Oui, il maîtrisait parfaitement</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label required">Est-ce que vous vous êtes senti(e) bien accompagné(e) pendant la visite ?</label>
-                        <div class="rating-group">
-                            <div class="rating-option">
-                                <input type="radio" id="acc1" name="accompagnement" value="1" class="rating-input" required>
-                                <label for="acc1" class="rating-label">Pas du tout</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="acc2" name="accompagnement" value="2" class="rating-input">
-                                <label for="acc2" class="rating-label">Moyennement</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="acc3" name="accompagnement" value="3" class="rating-input">
-                                <label for="acc3" class="rating-label">Oui, plutôt bien</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="acc4" name="accompagnement" value="4" class="rating-input">
-                                <label for="acc4" class="rating-label">Oui, super bien 👏</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label required">L'attitude et le professionnalisme de l'agent, vous l'évalueriez comment ?</label>
-                        <div class="rating-group">
-                            <div class="rating-option">
-                                <input type="radio" id="prof1" name="professionnalisme" value="1" class="rating-input" required>
-                                <label for="prof1" class="rating-label">Pas du tout professionnel</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="prof2" name="professionnalisme" value="2" class="rating-input">
-                                <label for="prof2" class="rating-label">Correct, sans plus</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="prof3" name="professionnalisme" value="3" class="rating-input">
-                                <label for="prof3" class="rating-label">Pro, rien à redire</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="prof4" name="professionnalisme" value="4" class="rating-input">
-                                <label for="prof4" class="rating-label">Excellent, vraiment top ⭐</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label required">Globalement, comment noteriez-vous votre expérience de visite ?</label>
-                        <div class="rating-group">
-                            <div class="rating-option">
-                                <input type="radio" id="glob1" name="experience_globale" value="1" class="rating-input" required>
-                                <label for="glob1" class="rating-label">⭐</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="glob2" name="experience_globale" value="2" class="rating-input">
-                                <label for="glob2" class="rating-label">⭐⭐</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="glob3" name="experience_globale" value="3" class="rating-input">
-                                <label for="glob3" class="rating-label">⭐⭐⭐</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="glob4" name="experience_globale" value="4" class="rating-input">
-                                <label for="glob4" class="rating-label">⭐⭐⭐⭐</label>
-                            </div>
-                            <div class="rating-option">
-                                <input type="radio" id="glob5" name="experience_globale" value="5" class="rating-input">
-                                <label for="glob5" class="rating-label">⭐⭐⭐⭐⭐</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Un petit mot pour nous ? (Suggestion, remarque, coup de cœur, coup de gueule 😅...)</label>
-                        <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions, suggestions ou remarques... (optionnel)"></textarea>
-                    </div>
-
-                    <div class="submit-container">
-                        <button type="submit" class="submit-button" id="submitBtn">Envoyer mon avis</button>
-                        <div class="security-badge">🔒 Vos données sont sécurisées</div>
-                        <p id="status" class="note"></p>
-                    </div>
-                </form>
-            </div>
-        </div>
+      </div>
+      <h1 class="form-title">Votre avis compte !</h1>
+      <p class="form-subtitle">Enquête de satisfaction sur votre visite</p>
     </div>
 
-    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">✨ Merci ! Votre réponse a bien été envoyée.</div>
+    <div class="form-body">
+      <!-- panneau succès -->
+      <div id="successPanel" class="success-panel hidden" aria-live="polite">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Merci, votre avis a été enregistré.</div>
+        <div class="success-desc">Nous apprécions votre retour — il nous aide à améliorer nos services.</div>
+      </div>
 
-    <script>
-        // Particules
-        (function createParticles(){
-            const c = document.getElementById('particles');
-            const n = 15, colors = ['#1055d5','#00d4ff','#8b5cf6','#ec4899'];
-            for (let i=0;i<n;i++){ const p=document.createElement('div'); p.className='particle';
-                p.style.left = Math.random()*100+'%'; p.style.top = Math.random()*100+'%';
-                p.style.animationDelay = Math.random()*6+'s'; p.style.animationDuration = (3+Math.random()*6)+'s';
-                const col=colors[Math.floor(Math.random()*colors.length)]; p.style.background=col; p.style.boxShadow=`0 0 10px ${col}`; c.appendChild(p); }
-        })();
+      <div id="formWrapper">
+        <div class="form-description">
+          <strong>Votre réponse nous prendra 5 minutes</strong> et nous permettra d'améliorer vos futures expériences avec Sky Immo.
+        </div>
 
-        // Toast
-        function showToast(message, type='success', duration=3000){
-            const t=document.getElementById('toast'); t.textContent=message; t.classList.remove('error','show');
-            if(type==='error') t.classList.add('error'); void t.offsetWidth; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), duration);
+        <form id="surveyForm">
+          <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="form-group" id="group-agent">
+            <label class="form-label required">Nom de l'agent rencontré</label>
+            <select class="form-select" name="agent" required>
+              <option value="">Sélectionnez un agent...</option>
+              <option value="Ismaïl Boutgayout">Ismaïl Boutgayout</option>
+              <option value="Sarah Martin">Sarah Martin</option>
+              <option value="Thomas Dubois">Thomas Dubois</option>
+              <option value="Marie Leroy">Marie Leroy</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="group-ponctualite">
+            <label class="form-label required">Est-ce que votre agent était à l'heure ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="ponc1" name="ponctualite" value="1" class="rating-input" required>
+                <label for="ponc1" class="rating-label">Non, il était vraiment très en retard ⏰😅</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc2" name="ponctualite" value="2" class="rating-input">
+                <label for="ponc2" class="rating-label">Il était un peu en retard</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc3" name="ponctualite" value="3" class="rating-input">
+                <label for="ponc3" class="rating-label">Oui, pile à l'heure 👌</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc4" name="ponctualite" value="4" class="rating-input">
+                <label for="ponc4" class="rating-label">Oui, même en avance 🚀</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-connaissance">
+            <label class="form-label required">Est-ce que votre agent connaissait bien le dossier du bien ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="conn1" name="connaissance" value="1" class="rating-input" required>
+                <label for="conn1" class="rating-label">Pas du tout, il semblait perdu</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn2" name="connaissance" value="2" class="rating-input">
+                <label for="conn2" class="rating-label">Plus ou moins, certaines infos manquaient</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn3" name="connaissance" value="3" class="rating-input">
+                <label for="conn3" class="rating-label">Oui, il connaissait l'essentiel</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn4" name="connaissance" value="4" class="rating-input">
+                <label for="conn4" class="rating-label">Oui, il maîtrisait parfaitement</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-accompagnement">
+            <label class="form-label required">Est-ce que vous vous êtes senti(e) bien accompagné(e) pendant la visite ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="acc1" name="accompagnement" value="1" class="rating-input" required>
+                <label for="acc1" class="rating-label">Pas du tout</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc2" name="accompagnement" value="2" class="rating-input">
+                <label for="acc2" class="rating-label">Moyennement</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc3" name="accompagnement" value="3" class="rating-input">
+                <label for="acc3" class="rating-label">Oui, plutôt bien</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc4" name="accompagnement" value="4" class="rating-input">
+                <label for="acc4" class="rating-label">Oui, super bien 👏</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-professionnalisme">
+            <label class="form-label required">L'attitude et le professionnalisme de l'agent, vous l'évalueriez comment ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="prof1" name="professionnalisme" value="1" class="rating-input" required>
+                <label for="prof1" class="rating-label">Pas du tout professionnel</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof2" name="professionnalisme" value="2" class="rating-input">
+                <label for="prof2" class="rating-label">Correct, sans plus</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof3" name="professionnalisme" value="3" class="rating-input">
+                <label for="prof3" class="rating-label">Pro, rien à redire</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof4" name="professionnalisme" value="4" class="rating-input">
+                <label for="prof4" class="rating-label">Excellent, vraiment top ⭐</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-experience_globale">
+            <label class="form-label required">Globalement, comment noteriez-vous votre expérience de visite ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="glob1" name="experience_globale" value="1" class="rating-input" required>
+                <label for="glob1" class="rating-label">⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob2" name="experience_globale" value="2" class="rating-input">
+                <label for="glob2" class="rating-label">⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob3" name="experience_globale" value="3" class="rating-input">
+                <label for="glob3" class="rating-label">⭐⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob4" name="experience_globale" value="4" class="rating-input">
+                <label for="glob4" class="rating-label">⭐⭐⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob5" name="experience_globale" value="5" class="rating-input">
+                <label for="glob5" class="rating-label">⭐⭐⭐⭐⭐</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Un petit mot pour nous ? (Suggestion, remarque, coup de cœur, coup de gueule 😅...)</label>
+            <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions, suggestions ou remarques... (optionnel)"></textarea>
+          </div>
+
+          <div class="submit-container">
+            <button type="submit" class="submit-button" id="submitBtn">Envoyer mon avis</button>
+            <div class="security-badge">🔒 Vos données sont sécurisées</div>
+            <p id="status" class="note"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">✨ Merci ! Votre réponse a bien été envoyée.</div>
+
+  <script>
+    // Particules
+    (function createParticles(){
+      const c=document.getElementById('particles'); const n=15, colors=['#1055d5','#00d4ff','#8b5cf6','#ec4899'];
+      for(let i=0;i<n;i++){ const p=document.createElement('div'); p.className='particle';
+        p.style.left=Math.random()*100+'%'; p.style.top=Math.random()*100+'%';
+        p.style.animationDelay=Math.random()*6+'s'; p.style.animationDuration=(3+Math.random()*6)+'s';
+        const col=colors[Math.floor(Math.random()*colors.length)]; p.style.background=col; p.style.boxShadow=`0 0 10px ${col}`; c.appendChild(p); }
+    })();
+
+    // Toast
+    function showToast(msg,type='success',duration=3000){
+      const t=document.getElementById('toast'); t.textContent=msg; t.classList.remove('error','show'); if(type==='error') t.classList.add('error'); void t.offsetWidth; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),duration);
+    }
+
+    // Panneau succès
+    function showSuccessPanel(){ document.getElementById('formWrapper').classList.add('hidden'); document.getElementById('successPanel').classList.remove('hidden'); }
+
+    const WEBHOOK_URL="/api/submit";
+    const form=document.getElementById('surveyForm');
+    const statusEl=document.getElementById('status');
+    const btn=document.getElementById('submitBtn');
+
+    // Anti double envoi (même navigateur)
+    if(localStorage.getItem('skyimmo_satisfaction_submitted')==='1'){ showSuccessPanel(); }
+
+    // ✅ Validation personnalisée des groupes requis
+    function validateForm(){
+      // nettoyer les états invalid
+      document.querySelectorAll('.form-group.invalid').forEach(g=>g.classList.remove('invalid'));
+
+      // 1) Select agent
+      const agentSelect = form.querySelector('select[name="agent"]');
+      if(!agentSelect.value){
+        const grp=document.getElementById('group-agent');
+        grp.classList.add('invalid');
+        grp.scrollIntoView({behavior:'smooth', block:'center'});
+        agentSelect.focus({preventScroll:true});
+        return false;
+      }
+
+      // 2) Groupes radio requis
+      const groups = [
+        { name:'ponctualite', id:'group-ponctualite' },
+        { name:'connaissance', id:'group-connaissance' },
+        { name:'accompagnement', id:'group-accompagnement' },
+        { name:'professionnalisme', id:'group-professionnalisme' },
+        { name:'experience_globale', id:'group-experience_globale' },
+      ];
+
+      for(const g of groups){
+        const checked = form.querySelector(`input[name="${g.name}"]:checked`);
+        if(!checked){
+          const grp = document.getElementById(g.id);
+          grp.classList.add('invalid');
+          grp.scrollIntoView({behavior:'smooth', block:'center'});
+          // focus sur le premier bouton du groupe
+          const first = grp.querySelector(`input[name="${g.name}"]`);
+          if(first) first.focus({preventScroll:true});
+          return false; // stop au premier manquant
+        }
+      }
+
+      return true; // tout est bon
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      statusEl.textContent='';
+
+      // Vérif custom
+      if(!validateForm()){
+        showToast("❗️Veuillez compléter tous les champs obligatoires.", "error", 3500);
+        return;
+      }
+
+      btn.disabled=true; btn.style.opacity='0.7';
+
+      const fd=new FormData(form);
+      if(fd.get('website')){ btn.disabled=false; btn.style.opacity='1'; return; } // honeypot
+
+      const payload=Object.fromEntries(fd.entries());
+      payload._meta={ ts:new Date().toISOString(), ua:navigator.userAgent };
+
+      try{
+        statusEl.textContent="🚀 Envoi en cours…"; statusEl.style.color='#00d4ff';
+
+        const res=await fetch(WEBHOOK_URL,{ method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) });
+        const text=await res.text();
+
+        if(!res.ok){
+          showToast("❌ Oups, une erreur est survenue.", "error");
+          statusEl.textContent=text || "❌ Erreur d'envoi"; statusEl.style.color='#ff5577';
+          throw new Error(text || `HTTP ${res.status}`);
         }
 
-        function showSuccessPanel(){
-            document.getElementById('formWrapper').classList.add('hidden');
-            document.getElementById('successPanel').classList.remove('hidden');
-        }
+        // Succès
+        showToast("✨ Merci ! Votre réponse a bien été envoyée.");
+        statusEl.textContent="✨ Merci ! Votre réponse a bien été envoyée."; statusEl.style.color='#00ff88';
+        localStorage.setItem('skyimmo_satisfaction_submitted','1');
+        showSuccessPanel();
 
-        const WEBHOOK_URL = "/api/submit";
-        const form = document.getElementById('surveyForm');
-        const status = document.getElementById('status');
-        const btn = document.getElementById('submitBtn');
-
-        // Si déjà soumis sur ce navigateur
-        if (localStorage.getItem('skyimmo_satisfaction_submitted') === '1') {
-            showSuccessPanel();
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            status.textContent = "";
-
-            // ✅ Vérification native HTML5 + message + scroll focus
-            if (!form.reportValidity()) {
-                showToast("❗️Veuillez compléter tous les champs obligatoires.", "error", 3500);
-                const firstInvalid = form.querySelector(':invalid');
-                if (firstInvalid) {
-                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // focus après scroll
-                    setTimeout(() => { try { firstInvalid.focus({ preventScroll: true }); } catch(e){} }, 300);
-                }
-                return;
-            }
-
-            btn.disabled = true; btn.style.opacity = '0.7';
-
-            const fd = new FormData(form);
-            if (fd.get('website')) { btn.disabled=false; btn.style.opacity='1'; return; } // honeypot
-
-            const payload = Object.fromEntries(fd.entries());
-            payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
-
-            try {
-                status.textContent = "🚀 Envoi en cours…"; status.style.color = '#00d4ff';
-
-                const res = await fetch(WEBHOOK_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                const text = await res.text();
-
-                if (!res.ok) {
-                    showToast("❌ Oups, une erreur est survenue.", "error");
-                    status.textContent = text || "❌ Erreur d'envoi";
-                    status.style.color = '#ff5577';
-                    throw new Error(text || `HTTP ${res.status}`);
-                }
-
-                // Succès
-                showToast("✨ Merci ! Votre réponse a bien été envoyée.");
-                status.textContent = "✨ Merci ! Votre réponse a bien été envoyée.";
-                status.style.color = '#00ff88';
-                localStorage.setItem('skyimmo_satisfaction_submitted', '1');
-                showSuccessPanel();
-
-            } catch (err) {
-                console.error(err);
-            } finally {
-                btn.disabled = false; btn.style.opacity = '1';
-            }
-        });
-    </script>
+      }catch(err){
+        console.error(err);
+      }finally{
+        btn.disabled=false; btn.style.opacity='1';
+      }
+    });
+  </script>
 </body>
 </html>
