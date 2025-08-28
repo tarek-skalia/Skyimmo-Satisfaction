@@ -7,7 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --primary:#1055d5; --primary-light:#4A90E2; --primary-dark:#0a3d9e; --electric-blue:#00d4ff; --electric-purple:#8b5cf6; --electric-pink:#ec4899; --neon-green:#00ff88; --danger:#ff5577; }
+    :root {
+      --primary:#1055d5; --primary-light:#4A90E2; --primary-dark:#0a3d9e;
+      --electric-blue:#00d4ff; --electric-purple:#8b5cf6; --electric-pink:#ec4899;
+      --neon-green:#00ff88; --danger:#ff5577;
+    }
     .hidden { display: none !important; }
 
     body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0a; min-height:100vh; padding:20px; display:flex; align-items:center; justify-content:center; overflow-x:hidden; position:relative; }
@@ -40,75 +44,54 @@
     .form-title{color:#fff;font-size:32px;font-weight:700;margin:25px 0 15px;position:relative;z-index:2;text-shadow:0 0 15px rgba(255,255,255,.5);animation:titleFloat 3s ease-in-out infinite}
     @keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
     .form-subtitle{color:rgba(255,255,255,.8);font-size:16px;font-weight:400;position:relative;z-index:2}
+
     .form-body{padding:45px 35px;background:rgba(0,0,0,.3);position:relative}
 
-    .form-description{text-align:center;color:#fff;font-size:15px;line-height:1.6;margin-bottom:35px;padding:25px;background:rgba(16,85,213,.1);border-radius:15px;border:1px solid rgba(16,85,213,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);animation:descGlow 4s ease-in-out infinite alternate}
-    @keyframes descGlow{0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 20px rgba(16,85,213,.2)}100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 30px rgba(16,85,213,.4)}}
+    /* Bannière d'erreur simple */
+    .error-banner{
+      display:none; margin:0 0 16px; padding:12px 14px; border-radius:10px;
+      background: rgba(255,85,119,.12); border:1px solid rgba(255,85,119,.35); color:#ffdbe2; font-weight:600;
+    }
+    .error-banner.show{ display:block; }
 
-    .form-group{margin-bottom:30px;animation:slideIn .8s ease-out backwards}
-    .form-group:nth-child(1){animation-delay:.1s}.form-group:nth-child(2){animation-delay:.2s}.form-group:nth-child(3){animation-delay:.3s}.form-group:nth-child(4){animation-delay:.4s}
-    @keyframes slideIn{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
-    .form-label{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:15px;position:relative;text-shadow:0 0 10px rgba(255,255,255,.3)}
-    .form-label.required::after{content:'*';color:var(--electric-pink);margin-left:6px;font-weight:700;text-shadow:0 0 10px var(--electric-pink);animation:star 1.5s ease-in-out infinite}
-    @keyframes star{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.2)}}
+    .form-description{text-align:center;color:#fff;font-size:15px;line-height:1.6;margin-bottom:22px;padding:18px;background:rgba(16,85,213,.1);border-radius:15px;border:1px solid rgba(16,85,213,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+    .form-group{margin-bottom:22px}
+    .form-label{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:10px}
+    .form-label.required::after{content:'*';color:var(--electric-pink);margin-left:6px;font-weight:700}
 
-    .form-select,.form-textarea{width:100%;padding:18px 22px;font-size:15px;color:#fff;background:rgba(15,23,42,.8);border:2px solid rgba(16,85,213,.3);border-radius:15px;outline:none;transition:all .4s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(10px)}
-    .form-select{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");background-position:right 18px center;background-repeat:no-repeat;background-size:16px;cursor:pointer}
-    .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 4px rgba(0,212,255,.2),0 0 30px rgba(0,212,255,.4);transform:translateY(-2px) scale(1.01)}
-    .form-select:hover,.form-textarea:hover{border-color:var(--primary-light);box-shadow:0 0 20px rgba(16,85,213,.3)}
-    .form-textarea{resize:vertical;min-height:130px;font-family:'Inter',sans-serif;line-height:1.6}
-    .form-textarea::placeholder{color:rgba(255,255,255,.6)}
+    .form-select,.form-textarea{width:100%;padding:16px 18px;font-size:15px;color:#fff;background:rgba(15,23,42,.8);border:2px solid rgba(16,85,213,.3);border-radius:12px;outline:none;transition:all .2s}
+    .form-select{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");background-position:right 16px center;background-repeat:no-repeat;background-size:16px;cursor:pointer}
+    .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 3px rgba(0,212,255,.2)}
+    .form-textarea{resize:vertical;min-height:120px}
 
-    .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:12px}
+    .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:8px}
     .rating-option{flex:1;min-width:90px}
     .rating-input{display:none}
-    .rating-label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);border-radius:12px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);min-height:85px;line-height:1.3;position:relative;overflow:hidden}
-    .rating-label::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,.1),transparent);transition:left .5s}
-    .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue));border-color:var(--electric-blue);color:#fff;transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6);animation:pulse 2s ease-in-out infinite}
-    @keyframes pulse{0%,100%{box-shadow:0 10px 25px rgba(16,85,213,.4),0 0 30px rgba(0,212,255,.6)}50%{box-shadow:0 15px 35px rgba(16,85,213,.6),0 0 40px rgba(0,212,255,.8)}}
-    .rating-label:hover{border-color:var(--electric-blue);background:rgba(16,85,213,.2);transform:translateY(-2px);box-shadow:0 5px 15px rgba(16,85,213,.3)}
-    .rating-label:hover::before{left:100%}
+    .rating-label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);border-radius:12px;font-size:13px;color:#fff;cursor:pointer;transition:all .2s;min-height:80px}
+    .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue)); border-color:var(--electric-blue); color:#fff}
 
-    /* Surlignage si invalide (groupe) */
-    .form-group.invalid .form-label { color: var(--danger); text-shadow:none; }
+    /* Marquage en rouge du groupe invalide */
+    .form-group.invalid .form-label { color: var(--danger); }
     .form-group.invalid .rating-label,
-    .form-group.invalid .form-select { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(255,85,119,.15); }
+    .form-group.invalid .form-select { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255,85,119,.15); }
 
-    .submit-container{text-align:center;margin-top:45px}
-    .submit-button{background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);color:#fff;font-size:18px;font-weight:700;padding:20px 55px;border:none;border-radius:50px;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(16,85,213,.4),inset 0 1px 0 rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:1px;position:relative;overflow:hidden;font-family:'Orbitron',monospace}
-    .submit-button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .6s}
-    .submit-button::after{content:'';position:absolute;inset:2px;border-radius:50px;background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);z-index:-1}
-    .submit-button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 15px 40px rgba(16,85,213,.6),0 0 50px rgba(0,212,255,.4);background:linear-gradient(135deg,var(--electric-blue) 0%,var(--electric-purple) 100%)}
-    .submit-button:hover::before{left:100%}
-    .submit-button:active{transform:translateY(-1px) scale(1.02)}
+    .submit-container{text-align:center;margin-top:28px}
+    .submit-button{background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);color:#fff;font-size:17px;font-weight:700;padding:16px 44px;border:none;border-radius:50px;cursor:pointer;transition:.2s;box-shadow:0 10px 30px rgba(16,85,213,.35)}
+    .submit-button:disabled{opacity:.6;cursor:not-allowed}
 
-    .security-badge{display:inline-flex;align-items:center;background:rgba(0,255,136,.1);color:var(--neon-green);font-size:13px;font-weight:600;padding:8px 16px;border-radius:25px;margin-top:15px;border:1px solid rgba(0,255,136,.3);animation:securityPulse 3s ease-in-out infinite}
-    @keyframes securityPulse{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.3)}50%{box-shadow:0 0 20px rgba(0,255,136,.6)}}
-    .footer-info{text-align:center;color:#fff;font-size:14px;margin-top:35px;padding-top:25px;border-top:1px solid rgba(16,85,213,.3);opacity:.9}
-    .note{margin-top:15px;font-size:14px;color:#fff;text-align:center;font-weight:500}
+    .security-badge{display:inline-flex;align-items:center;background:rgba(0,255,136,.1);color:var(--neon-green);font-size:13px;font-weight:600;padding:8px 16px;border-radius:25px;margin-top:12px;border:1px solid rgba(0,255,136,.3)}
+    .footer-info{text-align:center;color:#fff;font-size:14px;margin-top:28px;padding-top:20px;border-top:1px solid rgba(16,85,213,.3);opacity:.9}
 
-    /* TOAST */
-    .toast{position:fixed;top:20px;right:-420px;max-width:320px;background:linear-gradient(135deg,#00ff88,#00d4ff);color:#fff;font-weight:700;padding:14px 18px;border-radius:12px;box-shadow:0 10px 25px rgba(0,212,255,.35);transition:right .6s ease;z-index:9999;border:1px solid rgba(255,255,255,.25)}
-    .toast.show{right:20px}
-    .toast.error{background:linear-gradient(135deg,var(--danger),#ff8aa1);box-shadow:0 10px 25px rgba(255,85,119,.35)}
-
-    /* PANNEAU SUCCÈS */
-    .success-panel{text-align:center;padding:28px 22px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:16px;color:#eafff5;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);animation:fadeIn .6s ease-out both}
-    .success-icon{font-size:38px;margin-bottom:10px;filter:drop-shadow(0 0 10px rgba(0,255,136,.5))}
-    .success-title{font-weight:800;font-size:20px;letter-spacing:.4px;margin-bottom:6px}
+    /* Panneau succès */
+    .success-panel{text-align:center;padding:22px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:16px;color:#eafff5}
+    .success-icon{font-size:34px;margin-bottom:8px}
+    .success-title{font-weight:800;font-size:20px;margin-bottom:6px}
     .success-desc{color:#b7ffe2}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
     @media (max-width:600px){
       body{padding:15px}
-      .form-container{border-radius:20px}
-      .form-header{padding:35px 25px}
-      .form-body{padding:35px 25px}
-      .form-title{font-size:26px}
-      .brand-text{font-size:24px}
-      .rating-group{flex-direction:column;gap:8px}
-      .rating-option{min-width:100%}
-      .submit-button{padding:18px 45px;font-size:16px}
+      .rating-group{flex-direction:column}
+      .submit-button{width:100%}
     }
   </style>
 </head>
@@ -128,6 +111,11 @@
     </div>
 
     <div class="form-body">
+      <!-- bannière d'erreur -->
+      <div id="errorBanner" class="error-banner" role="alert" aria-live="polite">
+        ⚠️ Veuillez compléter toutes les cases nécessaires d’abord.
+      </div>
+
       <!-- panneau succès -->
       <div id="successPanel" class="success-panel hidden" aria-live="polite">
         <div class="success-icon">✅</div>
@@ -140,7 +128,7 @@
           <strong>Votre réponse nous prendra 5 minutes</strong> et nous permettra d'améliorer vos futures expériences avec Sky Immo.
         </div>
 
-        <form id="surveyForm">
+        <form id="surveyForm" novalidate>
           <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
 
           <div class="form-group" id="group-agent">
@@ -270,7 +258,7 @@
 
           <div class="form-group">
             <label class="form-label">Un petit mot pour nous ? (Suggestion, remarque, coup de cœur, coup de gueule 😅...)</label>
-            <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions, suggestions ou remarques... (optionnel)"></textarea>
+            <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions... (optionnel)"></textarea>
           </div>
 
           <div class="submit-container">
@@ -279,14 +267,17 @@
             <p id="status" class="note"></p>
           </div>
         </form>
+
+        <div class="footer-info">
+          Merci de prendre le temps de nous faire part de votre expérience.<br>
+          Votre avis nous aide à améliorer continuellement nos services.
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">✨ Merci ! Votre réponse a bien été envoyée.</div>
-
   <script>
-    // Particules
+    // Particules (visuel)
     (function createParticles(){
       const c=document.getElementById('particles'); const n=15, colors=['#1055d5','#00d4ff','#8b5cf6','#ec4899'];
       for(let i=0;i<n;i++){ const p=document.createElement('div'); p.className='particle';
@@ -295,34 +286,51 @@
         const col=colors[Math.floor(Math.random()*colors.length)]; p.style.background=col; p.style.boxShadow=`0 0 10px ${col}`; c.appendChild(p); }
     })();
 
-    // Toast
-    function showToast(msg,type='success',duration=3000){
-      const t=document.getElementById('toast'); t.textContent=msg; t.classList.remove('error','show'); if(type==='error') t.classList.add('error'); void t.offsetWidth; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),duration);
+    // Helpers UI
+    const errorBanner = document.getElementById('errorBanner');
+    function showError(msg){
+      errorBanner.textContent = '⚠️ ' + msg;
+      errorBanner.classList.add('show');
+    }
+    function hideError(){
+      errorBanner.classList.remove('show');
+    }
+    function showSuccessPanel(){
+      document.getElementById('formWrapper').classList.add('hidden');
+      document.getElementById('successPanel').classList.remove('hidden');
     }
 
-    // Panneau succès
-    function showSuccessPanel(){ document.getElementById('formWrapper').classList.add('hidden'); document.getElementById('successPanel').classList.remove('hidden'); }
+    // Constantes
+    const WEBHOOK_URL = "/api/submit"; // ton proxy -> n8n
+    const BLOCK_DELAY = 1000 * 60 * 5; // ⏱️ 5 minutes
+    const STORAGE_KEY = 'skyimmo_satisfaction_time';
 
-    const WEBHOOK_URL="/api/submit";
-    const form=document.getElementById('surveyForm');
-    const statusEl=document.getElementById('status');
-    const btn=document.getElementById('submitBtn');
+    const form = document.getElementById('surveyForm');
+    const statusEl = document.getElementById('status');
+    const btn = document.getElementById('submitBtn');
 
-    // Anti double envoi (même navigateur)
-    if(localStorage.getItem('skyimmo_satisfaction_submitted')==='1'){ showSuccessPanel(); }
+    // Blocage temporaire (5 min)
+    (function blockIfRecent(){
+      const last = localStorage.getItem(STORAGE_KEY);
+      if (last && Date.now() - parseInt(last, 10) < BLOCK_DELAY) {
+        showSuccessPanel();
+      }
+    })();
 
-    // ✅ Validation personnalisée des groupes requis
+    // Validation simple + claire
     function validateForm(){
-      // nettoyer les états invalid
+      hideError();
+      // retire les marques invalides
       document.querySelectorAll('.form-group.invalid').forEach(g=>g.classList.remove('invalid'));
 
       // 1) Select agent
       const agentSelect = form.querySelector('select[name="agent"]');
-      if(!agentSelect.value){
-        const grp=document.getElementById('group-agent');
+      if (!agentSelect.value) {
+        const grp = document.getElementById('group-agent');
         grp.classList.add('invalid');
-        grp.scrollIntoView({behavior:'smooth', block:'center'});
-        agentSelect.focus({preventScroll:true});
+        grp.scrollIntoView({ behavior:'smooth', block:'center' });
+        agentSelect.focus({ preventScroll:true });
+        showError("Veuillez compléter toutes les cases nécessaires d’abord.");
         return false;
       }
 
@@ -335,62 +343,69 @@
         { name:'experience_globale', id:'group-experience_globale' },
       ];
 
-      for(const g of groups){
+      for (const g of groups) {
         const checked = form.querySelector(`input[name="${g.name}"]:checked`);
-        if(!checked){
+        if (!checked) {
           const grp = document.getElementById(g.id);
           grp.classList.add('invalid');
-          grp.scrollIntoView({behavior:'smooth', block:'center'});
-          // focus sur le premier bouton du groupe
+          grp.scrollIntoView({ behavior:'smooth', block:'center' });
           const first = grp.querySelector(`input[name="${g.name}"]`);
-          if(first) first.focus({preventScroll:true});
-          return false; // stop au premier manquant
+          if (first) first.focus({ preventScroll:true });
+          showError("Veuillez compléter toutes les cases nécessaires d’abord.");
+          return false;
         }
       }
 
-      return true; // tout est bon
+      return true;
     }
 
-    form.addEventListener('submit', async (e)=>{
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      statusEl.textContent='';
+      hideError();
+      statusEl.textContent = '';
 
-      // Vérif custom
-      if(!validateForm()){
-        showToast("❗️Veuillez compléter tous les champs obligatoires.", "error", 3500);
-        return;
-      }
+      // Empêche l’envoi si incomplet
+      if (!validateForm()) return;
 
-      btn.disabled=true; btn.style.opacity='0.7';
+      // Honeypot anti-bot
+      const fd = new FormData(form);
+      if (fd.get('website')) return;
 
-      const fd=new FormData(form);
-      if(fd.get('website')){ btn.disabled=false; btn.style.opacity='1'; return; } // honeypot
+      // Envoi
+      btn.disabled = true; btn.style.opacity = '0.7';
+      statusEl.textContent = "🚀 Envoi en cours…";
+      statusEl.style.color = '#00d4ff';
 
-      const payload=Object.fromEntries(fd.entries());
-      payload._meta={ ts:new Date().toISOString(), ua:navigator.userAgent };
+      const payload = Object.fromEntries(fd.entries());
+      payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
 
-      try{
-        statusEl.textContent="🚀 Envoi en cours…"; statusEl.style.color='#00d4ff';
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
 
-        const res=await fetch(WEBHOOK_URL,{ method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) });
-        const text=await res.text();
-
-        if(!res.ok){
-          showToast("❌ Oups, une erreur est survenue.", "error");
-          statusEl.textContent=text || "❌ Erreur d'envoi"; statusEl.style.color='#ff5577';
-          throw new Error(text || `HTTP ${res.status}`);
+        if (!res.ok) {
+          statusEl.textContent = text || "❌ Erreur d'envoi";
+          statusEl.style.color = '#ff5577';
+          return;
         }
 
-        // Succès
-        showToast("✨ Merci ! Votre réponse a bien été envoyée.");
-        statusEl.textContent="✨ Merci ! Votre réponse a bien été envoyée."; statusEl.style.color='#00ff88';
-        localStorage.setItem('skyimmo_satisfaction_submitted','1');
+        // ✅ succès : on bloque 5 minutes
+        localStorage.setItem(STORAGE_KEY, Date.now());
+        statusEl.textContent = "✨ Merci ! Votre réponse a bien été envoyée.";
+        statusEl.style.color = '#00ff88';
         showSuccessPanel();
+        form.reset();
 
-      }catch(err){
+      } catch (err) {
+        statusEl.textContent = "❌ Une erreur est survenue. Réessayez.";
+        statusEl.style.color = '#ff5577';
         console.error(err);
-      }finally{
-        btn.disabled=false; btn.style.opacity='1';
+      } finally {
+        btn.disabled = false; btn.style.opacity = '1';
       }
     });
   </script>
