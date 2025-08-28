@@ -36,10 +36,10 @@
     @keyframes holo { 0%{left:-100%} 100%{left:100%} }
 
     .brand-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:20px;position:relative;z-index:2}
+    /* ✅ logo ajouté */
     .brand-logo-img {
       width: 80px; height: 80px; margin-bottom: 12px;
-      border-radius: 12px; background:#fff;
-      padding: 8px;
+      border-radius: 12px; background:#fff; padding:8px;
       box-shadow:0 0 20px rgba(0,212,255,.4);
     }
     .brand-content{text-align:center}
@@ -51,7 +51,72 @@
     @keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
     .form-subtitle{color:rgba(255,255,255,.8);font-size:16px;font-weight:400;position:relative;z-index:2}
 
-    /* ... le reste de ton CSS reste inchangé ... */
+    .form-body{padding:45px 35px;background:rgba(0,0,0,.3);position:relative}
+
+    /* Bannière d'erreur */
+    .error-banner{
+      display:none; margin:0 0 16px; padding:12px 14px; border-radius:10px;
+      background: rgba(255,85,119,.12); border:1px solid rgba(255,85,119,.35); color:#ffdbe2; font-weight:600;
+    }
+    .error-banner.show{ display:block; }
+
+    .form-description{text-align:center;color:#fff;font-size:15px;line-height:1.6;margin-bottom:22px;padding:18px;background:rgba(16,85,213,.1);border-radius:15px;border:1px solid rgba(16,85,213,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+    .form-group{margin-bottom:22px}
+    .form-label{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:10px}
+    .form-label.required::after{content:'*';color:var(--electric-pink);margin-left:6px;font-weight:700}
+
+    .form-select,.form-textarea{width:100%;padding:16px 18px;font-size:15px;color:#fff;background:rgba(15,23,42,.8);border:2px solid rgba(16,85,213,.3);border-radius:12px;outline:none;transition:all .2s}
+    .form-select{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300d4ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");background-position:right 16px center;background-repeat:no-repeat;background-size:16px;cursor:pointer}
+    .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 3px rgba(0,212,255,.2)}
+    .form-textarea{resize:vertical;min-height:120px}
+
+    .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:8px}
+    .rating-option{flex:1;min-width:90px}
+    .rating-input{display:none}
+    .rating-label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);border-radius:12px;font-size:13px;color:#fff;cursor:pointer;transition:all .2s;min-height:80px}
+    .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue)); border-color:var(--electric-blue); color:#fff}
+
+    /* Marquage en rouge du groupe invalide */
+    .form-group.invalid .form-label { color: var(--danger); }
+    .form-group.invalid .rating-label,
+    .form-group.invalid .form-select { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255,85,119,.15); }
+
+    /* bouton + badge en colonne */
+    .submit-container {
+      text-align: center;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .submit-button{background:linear-gradient(135deg,var(--primary) 0%,var(--electric-blue) 100%);color:#fff;font-size:17px;font-weight:700;padding:16px 44px;border:none;border-radius:50px;cursor:pointer;transition:.2s;box-shadow:0 10px 30px rgba(16,85,213,.35)}
+    .submit-button:disabled{opacity:.6;cursor:not-allowed}
+    .security-badge {
+      display: block;
+      text-align: center;
+      background: rgba(0,255,136,.1);
+      color: var(--neon-green);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 25px;
+      border: 1px solid rgba(0,255,136,.3);
+    }
+
+    .footer-info{text-align:center;color:#fff;font-size:14px;margin-top:28px;padding-top:20px;border-top:1px solid rgba(16,85,213,.3);opacity:.9}
+
+    /* Panneau succès */
+    .success-panel{text-align:center;padding:22px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:16px;color:#eafff5}
+    .success-icon{font-size:34px;margin-bottom:8px}
+    .success-title{font-weight:800;font-size:20px;margin-bottom:6px}
+    .success-desc{color:#b7ffe2}
+
+    @media (max-width:600px){
+      body{padding:15px}
+      .rating-group{flex-direction:column}
+      .submit-button{width:100%}
+    }
   </style>
 </head>
 <body>
@@ -60,9 +125,8 @@
   <div class="form-container">
     <div class="form-header">
       <div class="brand-logo">
-        <!-- ✅ Logo ajouté -->
+        <!-- ✅ Logo client -->
         <img src="https://cdn.prod.website-files.com/68101e1142e157b7bc0d9366/68b0214cd857cd787c955909_logo_bitmoji.svg" alt="Logo SkyImmo" class="brand-logo-img">
-        
         <div class="brand-content">
           <div class="brand-text">SKYIMMO</div>
           <div class="brand-tagline">by ISMAÏL BOUTGAYOUT</div>
@@ -72,8 +136,299 @@
       <p class="form-subtitle">Enquête de satisfaction sur votre visite</p>
     </div>
 
-    <!-- ... le reste du code HTML reste inchangé ... -->
+    <div class="form-body">
+      <!-- bannière d'erreur -->
+      <div id="errorBanner" class="error-banner" role="alert" aria-live="polite">
+        ⚠️ Veuillez compléter toutes les cases nécessaires d’abord.
+      </div>
 
+      <!-- panneau succès -->
+      <div id="successPanel" class="success-panel hidden" aria-live="polite">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Merci, votre avis a été enregistré.</div>
+        <div class="success-desc">Nous apprécions votre retour — il nous aide à améliorer nos services.</div>
+      </div>
+
+      <div id="formWrapper">
+        <div class="form-description">
+          <strong>En seulement 5 minutes,</strong> vous nous aiderez à améliorer les futures expériences avec Sky Immo !
+        </div>
+
+        <form id="surveyForm" novalidate>
+          <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="form-group" id="group-agent">
+            <label class="form-label required">Nom de l'agent rencontré</label>
+            <select class="form-select" name="agent" required>
+              <option value="">Sélectionnez un agent...</option>
+              <option value="Ismaïl Boutgayout">Ismaïl Boutgayout</option>
+              <option value="Sarah Martin">Sarah Martin</option>
+              <option value="Thomas Dubois">Thomas Dubois</option>
+              <option value="Marie Leroy">Marie Leroy</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="group-ponctualite">
+            <label class="form-label required">Est-ce que votre agent était à l'heure ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="ponc1" name="ponctualite" value="1" class="rating-input" required>
+                <label for="ponc1" class="rating-label">Non, il était vraiment très en retard ⏰😅</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc2" name="ponctualite" value="2" class="rating-input">
+                <label for="ponc2" class="rating-label">Il était un peu en retard</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc3" name="ponctualite" value="3" class="rating-input">
+                <label for="ponc3" class="rating-label">Oui, pile à l'heure 👌</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="ponc4" name="ponctualite" value="4" class="rating-input">
+                <label for="ponc4" class="rating-label">Oui, même en avance 🚀</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-connaissance">
+            <label class="form-label required">Est-ce que votre agent connaissait bien le dossier du bien ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="conn1" name="connaissance" value="1" class="rating-input" required>
+                <label for="conn1" class="rating-label">Pas du tout, il semblait perdu</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn2" name="connaissance" value="2" class="rating-input">
+                <label for="conn2" class="rating-label">Plus ou moins, certaines infos manquaient</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn3" name="connaissance" value="3" class="rating-input">
+                <label for="conn3" class="rating-label">Oui, il connaissait l'essentiel</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="conn4" name="connaissance" value="4" class="rating-input">
+                <label for="conn4" class="rating-label">Oui, il maîtrisait parfaitement</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-accompagnement">
+            <label class="form-label required">Est-ce que vous vous êtes senti(e) bien accompagné(e) pendant la visite ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="acc1" name="accompagnement" value="1" class="rating-input" required>
+                <label for="acc1" class="rating-label">Pas du tout</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc2" name="accompagnement" value="2" class="rating-input">
+                <label for="acc2" class="rating-label">Moyennement</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc3" name="accompagnement" value="3" class="rating-input">
+                <label for="acc3" class="rating-label">Oui, plutôt bien</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="acc4" name="accompagnement" value="4" class="rating-input">
+                <label for="acc4" class="rating-label">Oui, super bien 👏</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-professionnalisme">
+            <label class="form-label required">L'attitude et le professionnalisme de l'agent, vous l'évalueriez comment ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="prof1" name="professionnalisme" value="1" class="rating-input" required>
+                <label for="prof1" class="rating-label">Pas du tout professionnel</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof2" name="professionnalisme" value="2" class="rating-input">
+                <label for="prof2" class="rating-label">Correct, sans plus</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof3" name="professionnalisme" value="3" class="rating-input">
+                <label for="prof3" class="rating-label">Pro, rien à redire</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="prof4" name="professionnalisme" value="4" class="rating-input">
+                <label for="prof4" class="rating-label">Excellent, vraiment top ⭐</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-experience_globale">
+            <label class="form-label required">Globalement, comment noteriez-vous votre expérience de visite ?</label>
+            <div class="rating-group">
+              <div class="rating-option">
+                <input type="radio" id="glob1" name="experience_globale" value="1" class="rating-input" required>
+                <label for="glob1" class="rating-label">⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob2" name="experience_globale" value="2" class="rating-input">
+                <label for="glob2" class="rating-label">⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob3" name="experience_globale" value="3" class="rating-input">
+                <label for="glob3" class="rating-label">⭐⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob4" name="experience_globale" value="4" class="rating-input">
+                <label for="glob4" class="rating-label">⭐⭐⭐⭐</label>
+              </div>
+              <div class="rating-option">
+                <input type="radio" id="glob5" name="experience_globale" value="5" class="rating-input">
+                <label for="glob5" class="rating-label">⭐⭐⭐⭐⭐</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Un petit mot pour nous ? (Suggestion, remarque, coup de cœur, coup de gueule 😅...)</label>
+            <textarea class="form-textarea" name="commentaires" placeholder="Partagez vos impressions... (optionnel)"></textarea>
+          </div>
+
+          <div class="submit-container">
+            <button type="submit" class="submit-button" id="submitBtn">Envoyer mon avis</button>
+            <div class="security-badge">🔒 Vos données sont sécurisées</div>
+            <p id="status" class="note"></p>
+          </div>
+        </form>
+
+        <div class="footer-info">
+          Merci de prendre le temps de nous faire part de votre expérience.<br>
+          Votre avis nous aide à améliorer continuellement nos services.
+        </div>
+      </div>
+    </div>
   </div>
+
+  <script>
+    // Particules (visuel)
+    (function createParticles(){
+      const c=document.getElementById('particles'); const n=15, colors=['#1055d5','#00d4ff','#8b5cf6','#ec4899'];
+      for(let i=0;i<n;i++){ const p=document.createElement('div'); p.className='particle';
+        p.style.left=Math.random()*100+'%'; p.style.top=Math.random()*100+'%';
+        p.style.animationDelay=Math.random()*6+'s'; p.style.animationDuration=(3+Math.random()*6)+'s';
+        const col=colors[Math.floor(Math.random()*colors.length)]; p.style.background=col; p.style.boxShadow=`0 0 10px ${col}`; c.appendChild(p); }
+    })();
+
+    // Helpers UI
+    const errorBanner = document.getElementById('errorBanner');
+    function showError(msg){
+      errorBanner.textContent = '⚠️ ' + msg;
+      errorBanner.classList.add('show');
+    }
+    function hideError(){
+      errorBanner.classList.remove('show');
+    }
+    function showSuccessPanel(){
+      document.getElementById('formWrapper').classList.add('hidden');
+      document.getElementById('successPanel').classList.remove('hidden');
+    }
+
+    // Constantes
+    const WEBHOOK_URL = "/api/submit";   // proxy -> n8n
+    const BLOCK_DELAY = 1000 * 60 * 5;   // 5 minutes
+    const STORAGE_KEY = 'skyimmo_satisfaction_time';
+
+    const form = document.getElementById('surveyForm');
+    const statusEl = document.getElementById('status');
+    const btn = document.getElementById('submitBtn');
+
+    // Blocage temporaire (5 min)
+    (function blockIfRecent(){
+      const last = localStorage.getItem(STORAGE_KEY);
+      if (last && Date.now() - parseInt(last, 10) < BLOCK_DELAY) {
+        showSuccessPanel();
+      }
+    })();
+
+    // Validation simple (+ focus sur le premier champ manquant)
+    function validateForm(){
+      hideError();
+      document.querySelectorAll('.form-group.invalid').forEach(g=>g.classList.remove('invalid'));
+
+      const agentSelect = form.querySelector('select[name="agent"]');
+      if (!agentSelect.value) {
+        const grp = document.getElementById('group-agent');
+        grp.classList.add('invalid');
+        grp.scrollIntoView({ behavior:'smooth', block:'center' });
+        agentSelect.focus({ preventScroll:true });
+        showError("Veuillez compléter toutes les cases nécessaires d’abord.");
+        return false;
+      }
+
+      const groups = [
+        { name:'ponctualite', id:'group-ponctualite' },
+        { name:'connaissance', id:'group-connaissance' },
+        { name:'accompagnement', id:'group-accompagnement' },
+        { name:'professionnalisme', id:'group-professionnalisme' },
+        { name:'experience_globale', id:'group-experience_globale' },
+      ];
+      for (const g of groups) {
+        const checked = form.querySelector(`input[name="${g.name}"]:checked`);
+        if (!checked) {
+          const grp = document.getElementById(g.id);
+          grp.classList.add('invalid');
+          grp.scrollIntoView({ behavior:'smooth', block:'center' });
+          const first = grp.querySelector(`input[name="${g.name}"]`);
+          if (first) first.focus({ preventScroll:true });
+          showError("Veuillez compléter toutes les cases nécessaires d’abord.");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+      statusEl.textContent = '';
+
+      // Empêche l’envoi si incomplet
+      if (!validateForm()) return;
+
+      // Honeypot anti-bot
+      const fd = new FormData(form);
+      if (fd.get('website')) return;
+
+      // Envoi
+      btn.disabled = true; btn.style.opacity = '0.7';
+      statusEl.textContent = "🚀 Envoi en cours…";
+      statusEl.style.color = '#00d4ff';
+
+      const payload = Object.fromEntries(fd.entries());
+      payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+
+        if (!res.ok) {
+          statusEl.textContent = text || "❌ Erreur d'envoi";
+          statusEl.style.color = '#ff5577';
+          return;
+        }
+
+        // succès : on bloque 5 minutes
+        localStorage.setItem(STORAGE_KEY, Date.now());
+        statusEl.textContent = "✨ Merci ! Votre réponse a bien été envoyée.";
+        statusEl.style.color = '#00ff88';
+        showSuccessPanel();
+        form.reset();
+
+      } catch (err) {
+        statusEl.textContent = "❌ Une erreur est survenue. Réessayez.";
+        statusEl.style.color = '#ff5577';
+        console.error(err);
+      } finally {
+        btn.disabled = false; btn.style.opacity = '1';
+      }
+    });
+  </script>
 </body>
 </html>
