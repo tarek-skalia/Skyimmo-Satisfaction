@@ -36,7 +36,6 @@
     @keyframes holo { 0%{left:-100%} 100%{left:100%} }
 
     .brand-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:20px;position:relative;z-index:2}
-    /* ✅ logo ajouté */
     .brand-logo-img {
       width: 80px; height: 80px; margin-bottom: 12px;
       border-radius: 12px; background:#fff; padding:8px;
@@ -70,39 +69,16 @@
     .form-select:focus,.form-textarea:focus{border-color:var(--electric-blue);box-shadow:0 0 0 3px rgba(0,212,255,.2)}
     .form-textarea{resize:vertical;min-height:120px}
 
-    .rating-group {
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-    .rating-option {
-  flex: 1;
-  min-width: 90px;
-}
+    .rating-group{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:8px}
+    .rating-option{flex:1;min-width:90px}
     .rating-input{display:none}
-    .rating-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 10px;
-  text-align: center;
-  background: rgba(15,23,42,.6);
-  border: 2px solid rgba(16,85,213,.3);
-  border-radius: 12px;
-  font-size: 13px;
-  color: #fff;
-  cursor: pointer;
-  transition: all .2s;
-
-  /* ✅ taille uniforme */
-  min-height: 85px;   /* hauteur minimale */
-  height: 85px;       /* hauteur fixe */
-  line-height: 1.3;
-  overflow-wrap: break-word;
-}
+    .rating-label{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:14px 10px;text-align:center;background:rgba(15,23,42,.6);border:2px solid rgba(16,85,213,.3);
+      border-radius:12px;font-size:13px;color:#fff;cursor:pointer;transition:all .2s;
+      /* ✅ taille uniforme pour toutes les cases */
+      min-height:85px; height:85px; line-height:1.3; overflow-wrap:break-word;
+    }
     .rating-input:checked + .rating-label{background:linear-gradient(135deg,var(--primary),var(--electric-blue)); border-color:var(--electric-blue); color:#fff}
 
     /* Marquage en rouge du groupe invalide */
@@ -154,7 +130,7 @@
   <div class="form-container">
     <div class="form-header">
       <div class="brand-logo">
-        <!-- ✅ Logo client -->
+        <!-- Logo client -->
         <img src="https://cdn.prod.website-files.com/68101e1142e157b7bc0d9366/68b0214cd857cd787c955909_logo_bitmoji.svg" alt="Logo SkyImmo" class="brand-logo-img">
         <div class="brand-content">
           <div class="brand-text">SKYIMMO</div>
@@ -421,13 +397,57 @@
       const fd = new FormData(form);
       if (fd.get('website')) return;
 
+      // Construire le payload
+      const payload = Object.fromEntries(fd.entries());
+      payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
+
+      // ✅ OPTION A : ajouter les libellés lisibles + conserver les scores
+      const LABELS = {
+        ponctualite: {
+          "1": "Non, il était vraiment très en retard",
+          "2": "Il était un peu en retard",
+          "3": "Oui, pile à l'heure",
+          "4": "Oui, même en avance"
+        },
+        connaissance: {
+          "1": "Pas du tout, il semblait perdu",
+          "2": "Plus ou moins, certaines infos manquaient",
+          "3": "Oui, il connaissait l'essentiel",
+          "4": "Oui, il maîtrisait parfaitement"
+        },
+        accompagnement: {
+          "1": "Pas du tout",
+          "2": "Moyennement",
+          "3": "Oui, plutôt bien",
+          "4": "Oui, super bien"
+        },
+        professionnalisme: {
+          "1": "Pas du tout professionnel",
+          "2": "Correct, sans plus",
+          "3": "Pro, rien à redire",
+          "4": "Excellent, vraiment top"
+        },
+        experience_globale: {
+          "1": "1 étoile",
+          "2": "2 étoiles",
+          "3": "3 étoiles",
+          "4": "4 étoiles",
+          "5": "5 étoiles"
+        }
+      };
+
+      Object.keys(LABELS).forEach((key) => {
+        const val = payload[key];
+        if (val && LABELS[key][val]) {
+          payload[`${key}_score`] = val;       // ex: "3"
+          payload[key] = LABELS[key][val];     // ex: "Oui, pile à l'heure"
+        }
+      });
+
       // Envoi
       btn.disabled = true; btn.style.opacity = '0.7';
       statusEl.textContent = "🚀 Envoi en cours…";
       statusEl.style.color = '#00d4ff';
-
-      const payload = Object.fromEntries(fd.entries());
-      payload._meta = { ts: new Date().toISOString(), ua: navigator.userAgent };
 
       try {
         const res = await fetch(WEBHOOK_URL, {
