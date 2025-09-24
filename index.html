@@ -450,6 +450,11 @@
       statusEl.style.color = '#00d4ff';
 
       try {
+          var params = new URLSearchParams(window.location.search);
+  var utm = params.get('utm_content');
+  if (utm) {
+    payload['utm_content'] = utm;
+  }
         const res = await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -478,6 +483,14 @@
         btn.disabled = false; btn.style.opacity = '1';
       }
     });
+     (function () {
+    var params = new URLSearchParams(window.location.search);
+    var val = params.get('utm_content');
+    if (val) {
+      var input = document.getElementById('utm_content');
+      if (input) input.value = val;
+    }
+  })();
   </script>
 </body>
 </html>
